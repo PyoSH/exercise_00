@@ -1,0 +1,8 @@
+
+<launch>
+
+  <node pkg="exercise_00" type="exercise_00" name="exercise_00_pub"/>
+  <node pkg="exercise_00" type="exercise_00" name="exercise_00_sub"/>
+  <node pkg="rviz" type="rviz" name="rviz_2" output="screen" args = "-d $(find exercise_00)/rviz/stopline_2021.rviz"/>
+
+</launch>
