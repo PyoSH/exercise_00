@@ -16,14 +16,14 @@ using namespace std;
 // sub : transform (input Mat => .mp4 file) until node shutdown. 
 // Use comtomized msg 
 
-void imageCallback(const sensor_msgs::ImageConstPtr &msg);
+// void imageCallback(const sensor_msgs::ImageConstPtr &msg);
 
 
-void VidInfoWrite(VideoCapture camera,exercise_00::VidInfo info){
-	info.w = camera.get(CAP_PROP_FRAME_WIDTH);
-	info.h = camera.get(CAP_PROP_FRAME_HEIGHT);
-	info.fps = camera.get(CAP_PROP_FPS);
-}
+// void VidInfoWrite(VideoCapture camera,exercise_00::VidInfo info){
+// 	info.w = camera.get(CAP_PROP_FRAME_WIDTH);
+// 	info.h = camera.get(CAP_PROP_FRAME_HEIGHT);
+// 	info.fps = camera.get(CAP_PROP_FPS);
+// }
 
 
 int main(int argc, char **argv)
@@ -32,20 +32,25 @@ int main(int argc, char **argv)
 	ros::NodeHandle nh1;
 
 	image_transport::ImageTransport it(nh1);
-	image_transport::Publisher image_raw_pub = it.advertise("camera/exercise/image_raw",100);
+	image_transport::Publisher image_raw_pub = it.advertise("/camera/exercise/image_raw",100);
 	
 	sensor_msgs::ImagePtr msg1;
 	Mat frame;	
 	
+
+	// int fourcc = VideoWriter::fourcc('D','I','V','X');
+	// VideoWriter outputvideo("/home/out__put.avi", fourcc, 30, Size(680,640));
+
+
 	VideoCapture cap1(0); //전방 정면캠
 
 	cap1.open(0);
 	int w = cap1.set(cv::CAP_PROP_FRAME_WIDTH, 640);
 	int h = cap1.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
 
+
 	ros::Publisher VidInfo = nh1.advertise<exercise_00::VidInfo>("VidInfo",100);
 	exercise_00::VidInfo vidinfo_msg;
-
 
 	ros::Rate loop_rate(50);
 	
@@ -54,6 +59,8 @@ int main(int argc, char **argv)
 		//cap1.read(frame);
 		waitKey(1);
 		cap1 >> frame;
+
+		// outputvideo.write(frame);
 
 		msg1 = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
 		image_raw_pub.publish(msg1);
@@ -66,11 +73,14 @@ int main(int argc, char **argv)
 		
 		imshow("frame1",frame);
 		
-		VidInfoWrite(cap1, vidinfo_msg);
-		VidInfo.publish(vidinfo_msg);
+		// VidInfoWrite(cap1, vidinfo_msg);
+		// VidInfo.publish(vidinfo_msg);
 
 		ros::spinOnce();
 		loop_rate.sleep();
 	}
+
+	// outputvideo.release();
+
 	return 0;
 }
