@@ -21,7 +21,7 @@ int fourcc = VideoWriter::fourcc('D','I','V','X');
 // int fourcc = cv2.VideoWriter_fourcc(*'X264');
 // int delay;
 
-VideoWriter outputvideo("/home/output.avi", fourcc, 30, Size(680,640));
+VideoWriter outputvideo("/home/output.avi", fourcc, 30, Size(640,480));
 //VideoWriter outputvideo("/home/output.avi", fourcc, fps_, Size(w_,h_));
 
 
