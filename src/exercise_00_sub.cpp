@@ -22,12 +22,28 @@ int fourcc = VideoWriter::fourcc('D','I','V','X');
 // int delay;
 
 VideoWriter outputvideo("/home/output.avi", fourcc, 30, Size(680,640));
+//VideoWriter outputvideo("/home/output.avi", fourcc, fps_, Size(w_,h_));
 
+
+// Mat input_V;
+// exercise_00::VidInfo info_vid;
+
+// void msgcallBack(const exercise_00::VidInfo VidInfo){
+//     info_vid.w= VidInfo.w;
+//     info_vid.h= VidInfo.h;
+//     info_vid.fps= VidInfo.fps;
+
+// }
+
+// void after_msg(ros::NodeHandle nh1){
+//     ros::Subscriber info_sub = nh1.subscribe<exercise_00::VidInfo>("VidInfo",1,msgcallBack);
+    
+//     fourcc = VideoWriter::fourcc('D', 'I', 'V', 'X');
+//     delay = cvRound(1000/fps_);
+// }
 
 
 void imageCallback(const sensor_msgs::ImageConstPtr &msg1){
-    //cv::imshow("view", cv_bridge::toCvShare(msg1, "bgr8")->image);
-
     if(!outputvideo.isOpened()){
         cout<<"ewwww"<<endl;
     }
@@ -49,6 +65,22 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "exrc_subscriber");
 	ros::NodeHandle nh1;
     
+    {
+    // cv::namedWindow("view");
+    // cv::startWindowThread();
+
+    // after_msg(nh1);
+    // ros::Subscriber info_sub = nh1.subscribe<exercise_00::VidInfo>("VidInfo",1,msgcallBack);
+    
+    // w_ = info_vid.w;
+    // h_ = info_vid.h;
+    // fps_ = info_vid.fps;
+    
+    // fourcc = VideoWriter::fourcc('m','p','4','v');
+    // delay = cvRound(1000/fps_);
+
+    // cv::VideoWriter outputvideo("/home/output.mp4", fourcc, fps_, Size(w_, h_));
+    }
 
     image_transport::ImageTransport it(nh1);
     image_transport::Subscriber img_sub = it.subscribe("/camera/exercise/image_raw",100,imageCallback);
@@ -70,37 +102,7 @@ int main(int argc, char **argv)
 
 
 
-// Mat input_V;
-// exercise_00::VidInfo info_vid;
-
-// void msgcallBack(const exercise_00::VidInfo VidInfo){
-//     info_vid.w= VidInfo.w;
-//     info_vid.h= VidInfo.h;
-//     info_vid.fps= VidInfo.fps;
-
-// }
-
-// void after_msg(ros::NodeHandle nh1){
-//     ros::Subscriber info_sub = nh1.subscribe<exercise_00::VidInfo>("VidInfo",1,msgcallBack);
-    
-//     fourcc = VideoWriter::fourcc('D', 'I', 'V', 'X');
-//     delay = cvRound(1000/fps_);
-// }
 
 
 
-    // cv::namedWindow("view");
-    // cv::startWindowThread();
-
-    // after_msg(nh1);
-    // ros::Subscriber info_sub = nh1.subscribe<exercise_00::VidInfo>("VidInfo",1,msgcallBack);
-    
-    // w_ = info_vid.w;
-    // h_ = info_vid.h;
-    // fps_ = info_vid.fps;
-    
-    // fourcc = VideoWriter::fourcc('m','p','4','v');
-    // delay = cvRound(1000/fps_);
-
-    // cv::VideoWriter outputvideo("/home/output.mp4", fourcc, fps_, Size(w_, h_));
     
