@@ -9,19 +9,66 @@
 #include <cv_bridge/cv_bridge.h>
 #include "/home/catkin_ws/devel/include/exercise_00/VidInfo.h"
 
-namespace enc = sensor_msgs::image_encodings;
+// namespace enc = sensor_msgs::image_encodings;
 using namespace cv;
 using namespace std;
 
 // sub : transform (input Mat => .mp4 file) until node shutdown. 
 
-int w_,h_;
-double fps_;
-// int fourcc = VideoWriter::fourcc('H','2','6','4');
-int fourcc = cv2.VideoWriter_fourcc(*'X264');
-int delay;
+// int w_,h_;
+// double fps_;
+int fourcc = VideoWriter::fourcc('D','I','V','X');
+// int fourcc = cv2.VideoWriter_fourcc(*'X264');
+// int delay;
 
-cv::VideoWriter outputvideo("/home/output.mp4", fourcc, 30, Size(1280,720));
+VideoWriter outputvideo("/home/output.avi", fourcc, 30, Size(680,640));
+
+
+
+void imageCallback(const sensor_msgs::ImageConstPtr &msg1){
+    //cv::imshow("view", cv_bridge::toCvShare(msg1, "bgr8")->image);
+
+    if(!outputvideo.isOpened()){
+        cout<<"ewwww"<<endl;
+    }
+    else{
+        Mat input_V = cv_bridge::toCvCopy(msg1,"bgr8")->image.clone();    
+    
+    outputvideo.write(input_V);
+    imshow("img",input_V);
+
+    cout << "recording....." << endl;
+
+    waitKey(1);
+    }   
+    
+}
+
+int main(int argc, char **argv)
+{
+	ros::init(argc, argv, "exrc_subscriber");
+	ros::NodeHandle nh1;
+    
+
+    image_transport::ImageTransport it(nh1);
+    image_transport::Subscriber img_sub = it.subscribe("/camera/exercise/image_raw",100,imageCallback);
+
+    
+    
+    while(ros::ok()){
+        ros::Rate loop_rate(100);
+        ros::spinOnce();
+        loop_rate.sleep();
+    }  
+    
+    outputvideo.release();
+    cout << "end /" <<endl;
+
+    // cv::destroyWindow("view");
+}
+
+
+
 
 // Mat input_V;
 // exercise_00::VidInfo info_vid;
@@ -40,28 +87,8 @@ cv::VideoWriter outputvideo("/home/output.mp4", fourcc, 30, Size(1280,720));
 //     delay = cvRound(1000/fps_);
 // }
 
-void imageCallback(const sensor_msgs::ImageConstPtr &msg1){
-    //cv::imshow("view", cv_bridge::toCvShare(msg1, "bgr8")->image);
 
-    if(!outputvideo.isOpened()){
-        cout<<"ewwww"<<endl;
 
-    }
-
-    Mat input_V = cv_bridge::toCvShare(msg1,"bgr8")->image.clone();    
-    
-    outputvideo.write(input_V);
-    cout << "recording....." << endl;
-
-    waitKey(1);
-    
-}
-
-int main(int argc, char **argv)
-{
-	ros::init(argc, argv, "exrc_subscriber");
-	ros::NodeHandle nh1;
-    
     // cv::namedWindow("view");
     // cv::startWindowThread();
 
@@ -77,20 +104,3 @@ int main(int argc, char **argv)
 
     // cv::VideoWriter outputvideo("/home/output.mp4", fourcc, fps_, Size(w_, h_));
     
-
-    image_transport::ImageTransport it(nh1);
-    image_transport::Subscriber img_sub = it.subscribe("camera/exercise/image_raw",100,imageCallback);
-
-    
-    
-    while(ros::ok()){
-        ros::Rate loop_rate(100);
-        ros::spinOnce();
-        loop_rate.sleep();
-    }  
-    
-    outputvideo.release();
-    cout << "end /" <<endl;
-
-    // cv::destroyWindow("view");
-}
