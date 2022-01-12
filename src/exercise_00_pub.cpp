@@ -19,11 +19,11 @@ using namespace std;
 // void imageCallback(const sensor_msgs::ImageConstPtr &msg);
 
 
-// void VidInfoWrite(VideoCapture camera,exercise_00::VidInfo info){
-// 	info.w = camera.get(CAP_PROP_FRAME_WIDTH);
-// 	info.h = camera.get(CAP_PROP_FRAME_HEIGHT);
-// 	info.fps = camera.get(CAP_PROP_FPS);
-// }
+void VidInfoWrite(VideoCapture camera,exercise_00::VidInfo info){
+	info.w = camera.get(CAP_PROP_FRAME_WIDTH);
+	info.h = camera.get(CAP_PROP_FRAME_HEIGHT);
+	info.fps = camera.get(CAP_PROP_FPS);
+}
 
 
 int main(int argc, char **argv)
@@ -73,8 +73,8 @@ int main(int argc, char **argv)
 		
 		imshow("frame1",frame);
 		
-		// VidInfoWrite(cap1, vidinfo_msg);
-		// VidInfo.publish(vidinfo_msg);
+		VidInfoWrite(cap1, vidinfo_msg);
+		VidInfo.publish(vidinfo_msg);
 
 		ros::spinOnce();
 		loop_rate.sleep();
