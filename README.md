@@ -1,4 +1,4 @@
-자율차 연구회 1차 과제물
+자율차 연구회 2차 과제물
 
 imgmsg로 pub에서 sub에게 영상이 넘어가면, 
 sub에서 imgmsg -> sensor_msgs::ImageConstPtr -> cv::Mat으로 변환을 거쳐 동영상 파일을 저장하게 된다. 
