@@ -1,4 +1,6 @@
-본래 의도 : imgmsg로 pub에서 sub에게 영상이 넘어가면, 
+자율차 연구회 1차 과제물
+
+imgmsg로 pub에서 sub에게 영상이 넘어가면, 
 sub에서 imgmsg -> sensor_msgs::ImageConstPtr -> cv::Mat으로 변환을 거쳐 동영상 파일을 저장하게 된다. 
 이 때, VideoWriter 클래스를 통해 VideoWriter outputvideo("/home/output.avi", fourcc, 30, Size(680,640)); 
 
